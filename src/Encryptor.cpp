@@ -1,4 +1,10 @@
 ﻿// Encryptor.cpp : Defines the entry point for the application.
+// TODO:
+// Edit success message to show how many files were actually successfully encrypted/decrypted
+// Add recursiveness to file encryption
+// Add classes for better code organization and modularity
+// Revamp user interaction with program
+// Add user ability to change seed length
 
 #include "Encryptor.h"
 
