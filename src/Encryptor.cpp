@@ -6,66 +6,68 @@ int main()
 {
 	std::cout << "Encryptor initialized" << std::endl;
 
-	// Select directory
-	std::filesystem::path dirPath = getDirectory();
-	std::cout << "Selected directory: " << dirPath << std::endl;
-
-	// Get command
-	int userChoice = 0;
 	while (true) {
-		std::cout << "Please enter '1' to encrypt or '2' to decrypt: ";
+		// Select directory
+		std::filesystem::path dirPath = getDirectory();
+		std::cout << "Selected directory: " << dirPath << std::endl;
 
-		try {
-			std::string userChoiceStr;
-			std::getline(std::cin, userChoiceStr);
-			userChoice = stoi(userChoiceStr);
-		}
-		catch (std::exception& e) {
-			std::cout << "Error: " << e.what() << std::endl;
-		}
-
-		if ((userChoice == 1) || (userChoice == 2)) {
-			break;
-		}
-		
-		std::cout << "Invalid choice" << std::endl;
-	}
-
-	// Seed generation
-	std::string seed;
-	if (userChoice == 1) {
-		// Encrypt
-		// Generate the encryption seed
-		seed = generateSeed(16);
-		std::cout << "Seed: " << seed << std::endl;
-	}
-	else {
-		// Decrypt
-		// Extract the user decryption seed
-		while (seed.empty()) {
-			std::cout << "Please enter the decryption seed: ";
+		// Get command
+		int userChoice = 0;
+		while (true) {
+			std::cout << "Please enter '1' to encrypt, '2' to decrypt: ";
 
 			try {
 				std::string userChoiceStr;
-				std::getline(std::cin, seed);
-
-				if (seed.empty()) {
-					std::cout << "Invalid choice" << std::endl;
+				std::getline(std::cin, userChoiceStr);
+				if (userChoiceStr.empty()) {
+					return 0;
 				}
+				userChoice = stoi(userChoiceStr);
 			}
 			catch (std::exception& e) {
 				std::cout << "Error: " << e.what() << std::endl;
 			}
+
+			if ((userChoice == 1) || (userChoice == 2)) {
+				break;
+			}
+
+			std::cout << "Invalid choice" << std::endl;
 		}
+
+		// Seed generation
+		std::string seed;
+		if (userChoice == 1) {
+			// Encrypt
+			// Generate the encryption seed
+			seed = generateSeed(16);
+			std::cout << "Seed: " << seed << std::endl;
+		}
+		else {
+			// Decrypt
+			// Extract the user decryption seed
+			while (seed.empty()) {
+				std::cout << "Please enter the decryption seed: ";
+
+				try {
+					std::string userChoiceStr;
+					std::getline(std::cin, seed);
+
+					if (seed.empty()) {
+						std::cout << "Invalid choice" << std::endl;
+					}
+				}
+				catch (std::exception& e) {
+					std::cout << "Error: " << e.what() << std::endl;
+				}
+			}
+		}
+
+		// Begin file processing
+		processDirectory(dirPath, userChoice, seed);
 	}
 
-	// Begin file processing
-	processDirectory(dirPath, userChoice, seed);
-
-	// TODO: Add option to return to beginning here
-	// or hold the thread to allow seed copy
-
-	return 0;
+	return 1;
 }
 
 std::filesystem::path getDirectory() {

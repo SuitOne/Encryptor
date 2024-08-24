@@ -12,7 +12,13 @@ endif()
 project ("Encryptor")
 
 # Add source to this project's executable.
-add_executable (Encryptor "Encryptor.cpp" "Encryptor.h")
+# Add the resource file for this icon
+if(WIN32)
+	set(SOURCE_FILES "src/Encryptor.cpp" "src/Encryptor.h" "resources/resource.rc")
+	add_executable(Encryptor ${SOURCE_FILES})
+else()
+	add_executable(Encryptor "src/Encryptor.cpp" "src/Encryptor.h")
+endif()
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Encryptor PROPERTY CXX_STANDARD 20)
