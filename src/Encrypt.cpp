@@ -1,6 +1,6 @@
 #include "Encrypt.h"
 
-void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive = false) {
+void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {
 	std::cout << "Encrypting file: " << filePath << std::endl;
 
 	// Get original file extension
@@ -43,7 +43,19 @@ void encrypt::encryptFile(const std::filesystem::path& filePath, const std::stri
 	// Delete the original file
 	std::filesystem::remove(filePath);
 
-	// Place key file
-
 	std::cout << "Successfully encrypted: " << newFilePath << std::endl;
+}
+
+void encrypt::generateKeyFile(const std::filesystem::path& dirPath, const std::string& seed) {
+	std::cout << "Generating key for seed: " << seed << std::endl;
+
+	// Generate the file 
+	std::filesystem::path keyFilePath = dirPath / "key.txt";
+
+	// Write seed to key file
+	std::ofstream keyOutput(keyFilePath);
+	keyOutput << seed;
+	keyOutput.close();
+
+	std::cout << "Key successfully generated: " << keyFilePath << std::endl;
 }
