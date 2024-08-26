@@ -2,11 +2,16 @@
 
 #include "Encryptor.h"
 
+// Global version declaration
+const std::string VERSION = "v1.1";
+
 int main()
 {
-	std::string version = "v1.1";
-	std::cout << "Encryptor " << version << " initialized" << std::endl;
+	// CMD init
+	system(("title Encryptor " + VERSION).c_str());
+	std::cout << "Encryptor " << VERSION << " Initialized" << std::endl;
 
+	// Main loop
 	while (true) {
 		// Select directory
 		std::filesystem::path dirPath = getDirectory();
