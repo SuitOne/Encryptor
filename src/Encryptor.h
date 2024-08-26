@@ -5,6 +5,8 @@
 #include <string>
 #include <filesystem>
 #include <fstream>
+#include "Encrypt.h"
+#include "Decrypt.h"
 
 // Forward declared functions
 

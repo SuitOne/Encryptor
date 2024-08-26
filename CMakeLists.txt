@@ -14,8 +14,8 @@ project ("Encryptor")
 # Add source to this project's executable.
 # Add the resource file for this icon
 if(WIN32)
-	set(SOURCE_FILES "src/Encryptor.cpp" "src/Encryptor.h" "resources/resource.rc")
-	add_executable(Encryptor ${SOURCE_FILES})
+	set(SOURCE_FILES "src/Encryptor.cpp" "src/Encryptor.h" "resources/resource.rc" "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h")
+	add_executable(Encryptor ${SOURCE_FILES} "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h")
 else()
 	add_executable(Encryptor "src/Encryptor.cpp" "src/Encryptor.h")
 endif()

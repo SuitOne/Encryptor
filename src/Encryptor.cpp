@@ -2,9 +2,9 @@
 // TODO:
 // Edit success message to show how many files were actually successfully encrypted/decrypted
 // Add recursiveness to file encryption
-// Add classes for better code organization and modularity
 // Revamp user interaction with program
 // Add user ability to change seed length
+// Add updater that checks github for newer releases
 
 #include "Encryptor.h"
 
@@ -138,10 +138,10 @@ void processDirectory(const std::filesystem::path& dirPath, const int& userChoic
 					std::cout << "File already encrypted: " << entry.path() << std::endl;
 					continue;
 				}
-				encryptFile(entry.path(), seed);
+				encrypt::encryptFile(entry.path(), seed);
 			}
 			else {
-				decryptFile(entry.path(), seed);
+				decrypt::decryptFile(entry.path(), seed);
 			}
 		}
 	}
@@ -154,97 +154,4 @@ void processDirectory(const std::filesystem::path& dirPath, const int& userChoic
 	else {
 		std::cout << "Successfully decrypted files with seed: " << seed << std::endl;
 	}
-}
-
-void encryptFile(const std::filesystem::path& filePath, const std::string& seed) {
-	std::cout << "Encrypting file: " << filePath << std::endl;
-	
-	// Get original file extension
-	std::string originalExtension = filePath.extension().string();
-
-	// Open the file for reading
-	std::ifstream inputFile(filePath, std::ios::binary);
-	if (!inputFile) {
-		std::cerr << "Error opening file for reading : " << filePath << std::endl;
-		return;
-	}
-
-	// Read file content into buffer
-	std::vector<char> buffer((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
-	inputFile.close();
-
-	// Prepend the original extension to the buffer with a null term
-	buffer.insert(buffer.begin(), originalExtension.begin(), originalExtension.end());
-	buffer.insert(buffer.begin() + originalExtension.size(), '\0');
-
-	// Flip bits according to seed
-	for (size_t i = 0; i < buffer.size(); ++i) {
-		int flipTimes = seed[i % seed.size()] - '0'; // Convert char digit to int
-		buffer[i] ^= flipTimes; // XOR operation for encryption
-	}
-
-	// Change file extension to .ses
-	std::filesystem::path newFilePath = filePath;
-	newFilePath.replace_extension(".ses");
-
-	// Write encrypted contents back to file with new extension
-	std::ofstream outputFile(newFilePath, std::ios::binary);
-	if (!outputFile) {
-		std::cerr << "Error opening file for writing: " << filePath << std::endl;
-		return;
-	}
-	outputFile.write(buffer.data(), buffer.size());
-	outputFile.close();
-
-	//Delete the original file
-	std::filesystem::remove(filePath);
-
-	std::cout << "Successfully encrypted: " << newFilePath << std::endl;
-}
-
-void decryptFile(const std::filesystem::path& filePath, const std::string& seed) {
-	std::cout << "Decrypting file: " << filePath << std::endl;
-
-	// Open the encrypted file for reading
-	std::ifstream inputFile(filePath, std::ios::binary);
-	if (!inputFile) {
-		std::cerr << "Error opening file for reading: " << filePath << std::endl;
-		return;
-	}
-	
-	// Read the encrypted contents into a buffer
-	std::vector<char> buffer((std::istreambuf_iterator<char>(inputFile)), std::istreambuf_iterator<char>());
-	inputFile.close();
-
-	// Flip bits according to seed
-	for (size_t i = 0; i < buffer.size(); ++i) {
-		int flipTimes = seed[i % seed.size()] - '0'; // Convert char digit to int
-		buffer[i] ^= flipTimes; // XOR operation for decryption
-	}
-
-	// Extract the original extension from the decrypted buffer
-	auto nullPos = find(buffer.begin(), buffer.end(), '\0');
-	if (nullPos == buffer.end()) {
-		std::cerr << "Error: Original file extension not found." << std::endl;
-		return;
-	}
-
-	std::string originalExtension(buffer.begin(), nullPos);
-	buffer.erase(buffer.begin(), nullPos + 1);
-
-	// Restore the file extension
-	std::filesystem::path newFilePath = filePath;
-	newFilePath.replace_extension(originalExtension);
-
-	// Write the decrypted contents back to the file with the original extension
-	std::ofstream outputFile(newFilePath, std::ios::binary);
-	if (!outputFile) {
-		std::cerr << "Error opening file for writing: " << newFilePath << std::endl;
-		return;
-	}
-	outputFile.write(buffer.data(), buffer.size());
-	outputFile.close();
-
-	// Delete the encrypted file
-	std::filesystem::remove(filePath);
 }
