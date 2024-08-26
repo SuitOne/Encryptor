@@ -4,7 +4,8 @@
 
 int main()
 {
-	std::cout << "Encryptor initialized" << std::endl;
+	std::string version = "v1.1";
+	std::cout << "Encryptor " << version << " initialized" << std::endl;
 
 	while (true) {
 		// Select directory
