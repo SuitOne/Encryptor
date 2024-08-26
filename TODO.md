@@ -1,4 +1,5 @@
 # TODO:
+
 - Edit success message to show how many files were actually successfully encrypted/decrypted
 - Add recursiveness to file encryption
 - Check that files to decrypt have .ses extension before attempting decryption
