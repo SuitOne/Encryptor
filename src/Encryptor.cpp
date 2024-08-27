@@ -3,24 +3,24 @@
 #include "Encryptor.h"
 
 // Global version declaration
-const std::string VERSION = "v1.1";
+const std::string VERSION = "v1.2";
 
 int main()
 {
 	// CMD init
 	system(("title Encryptor " + VERSION).c_str());
-	std::cout << "Encryptor " << VERSION << " Initialized" << std::endl;
+	eprint("Encryptor " + VERSION + " Initialized", Color::Blue);
 
 	// Main loop
 	while (true) {
 		// Select directory
 		std::filesystem::path dirPath = getDirectory();
-		std::cout << "Selected directory: " << dirPath << std::endl;
+		eprint("Selected directory: " + dirPath.string());
 
 		// Get command
 		int userChoice = 0;
 		while (true) {
-			std::cout << "Please enter '1' to encrypt, '2' to decrypt: ";
+			eprint("Please enter '1' to encrypt, '2' to decrypt: ", Color::Blue, false);
 
 			try {
 				std::string userChoiceStr;
@@ -31,14 +31,14 @@ int main()
 				userChoice = stoi(userChoiceStr);
 			}
 			catch (std::exception& e) {
-				std::cout << "Error: " << e.what() << std::endl;
+				eprinterror(e);
 			}
 
 			if ((userChoice == 1) || (userChoice == 2)) {
 				break;
 			}
 
-			std::cout << "Invalid choice" << std::endl;
+			eprint("Invalid choice", Color::Red);
 		}
 
 		// Seed generation
@@ -47,24 +47,24 @@ int main()
 			// Encrypt
 			// Generate the encryption seed
 			seed = generateSeed(16);
-			std::cout << "Seed: " << seed << std::endl;
+			eprint("Seed: " + seed);
 		}
 		else {
 			// Decrypt
 			// Extract the user decryption seed
 			while (seed.empty()) {
-				std::cout << "Please enter the decryption seed: ";
+				eprint("Please enter the decryption seed: ", Color::Blue, false);
 
 				try {
 					std::string userChoiceStr;
 					std::getline(std::cin, seed);
 
 					if (seed.empty()) {
-						std::cout << "Invalid choice" << std::endl;
+						eprint("Error: Invalid seed", Color::Red);
 					}
 				}
 				catch (std::exception& e) {
-					std::cout << "Error: " << e.what() << std::endl;
+					eprinterror(e);
 				}
 			}
 		}
@@ -83,7 +83,7 @@ std::filesystem::path getDirectory() {
 	// Core loop
 	while (path.empty()) {
 		try {
-			std::cout << "Please enter a file directory: ";
+			eprint("Please enter a file directory: ", Color::Blue, false);
 
 			// Get user input
 			std::string userInput;
@@ -97,12 +97,12 @@ std::filesystem::path getDirectory() {
 				return path;
 			}
 			else {
-				std::cout << "Invalid directory" << std::endl;
+				eprint("Error: Invalid directory", Color::Red);
 				path.clear();
 			}
 		}
 		catch (std::exception& e) {
-			std::cout << "Error: " << e.what() << std::endl;
+			eprinterror(e);
 			path.clear();
 		}
 	}
@@ -130,12 +130,12 @@ void processDirectory(const std::filesystem::path& dirPath, const int& userChoic
 	// Parse the directory for each file
 	for (const auto& entry : std::filesystem::directory_iterator(dirPath)) {
 		if (std::filesystem::is_regular_file(entry.status())) {
-			std::cout << "Discovered file: " << entry.path() << std::endl;
+			eprint("Discovered file: " + entry.path().string());
 
 			if (userChoice == 1) {
 				// Don't encrypt .ses files
 				if (entry.path().extension().string() == ".ses") {
-					std::cout << "File already encrypted: " << entry.path() << std::endl;
+					eprint("File already encrypted: " + entry.path().string(), Color::Yellow);
 					continue;
 				}
 				encrypt::encryptFile(entry.path(), seed);
@@ -149,10 +149,10 @@ void processDirectory(const std::filesystem::path& dirPath, const int& userChoic
 
 	// Final message
 	if (userChoice == 1) {
-		std::cout << "Successfully encrypted files with seed: " << seed << std::endl;
-		std::cout << "Please remember to save the seed for later decryption." << std::endl;
+		eprint("Successfully encrypted files with seed: " + seed, Color::Green);
+		eprint("Please remember to save the seed for later decryption.");
 	}
 	else {
-		std::cout << "Successfully decrypted files with seed: " << seed << std::endl;
+		eprint("Successfully decrypted files with seed: " + seed, Color::Green);
 	}
 }

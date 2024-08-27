@@ -14,10 +14,10 @@ project ("Encryptor")
 # Add source to this project's executable.
 # Add the resource file for this icon
 if(WIN32)
-	set(SOURCE_FILES "src/Encryptor.cpp" "src/Encryptor.h" "resources/resource.rc" "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h")
-	add_executable(Encryptor ${SOURCE_FILES} "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h")
+	set(SOURCE_FILES "src/Encryptor.cpp" "src/Encryptor.h" "resources/resource.rc" "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h" "src/eprint.cpp" "src/eprint.h")
+	add_executable(Encryptor ${SOURCE_FILES})
 else()
-	add_executable(Encryptor "src/Encryptor.cpp" "src/Encryptor.h")
+	add_executable(Encryptor "src/Encryptor.cpp" "src/Encryptor.h" "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h" "src/eprint.cpp" "src/eprint.h")
 endif()
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

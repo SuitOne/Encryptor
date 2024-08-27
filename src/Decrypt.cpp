@@ -1,12 +1,12 @@
 #include "Decrypt.h"
 
 void decrypt::decryptFile(const std::filesystem::path& filePath, const std::string& seed) {
-	std::cout << "Decrypting file: " << filePath << std::endl;
+	eprint("Decrypting file: " + filePath.string());
 
 	// Open the encrypted file for reading
 	std::ifstream inputFile(filePath, std::ios::binary);
 	if (!inputFile) {
-		std::cerr << "Error opening file for reading: " << filePath << std::endl;
+		eprint("Error opening file for reading: " + filePath.string(), Color::Red);
 		return;
 	}
 
@@ -23,7 +23,7 @@ void decrypt::decryptFile(const std::filesystem::path& filePath, const std::stri
 	// Extract the original extension from the decrypted buffer
 	auto nullPos = find(buffer.begin(), buffer.end(), '\0');
 	if (nullPos == buffer.end()) {
-		std::cerr << "Error: Original file extension not found." << std::endl;
+		eprint("Error: Original file extension not found.", Color::Red);
 		return;
 	}
 
@@ -37,7 +37,7 @@ void decrypt::decryptFile(const std::filesystem::path& filePath, const std::stri
 	// Write the decrypted contents back to the file with the original extension
 	std::ofstream outputFile(newFilePath, std::ios::binary);
 	if (!outputFile) {
-		std::cerr << "Error opening file for writing: " << newFilePath << std::endl;
+		eprint("Error opening file for writing: " + newFilePath.string(), Color::Red);
 		return;
 	}
 	outputFile.write(buffer.data(), buffer.size());
@@ -45,4 +45,6 @@ void decrypt::decryptFile(const std::filesystem::path& filePath, const std::stri
 
 	// Delete the encrypted file
 	std::filesystem::remove(filePath);
+
+	eprint("Successfully decrypted: " + newFilePath.string(), Color::Green);
 }

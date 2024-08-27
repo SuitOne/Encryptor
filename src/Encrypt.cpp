@@ -1,7 +1,7 @@
 #include "Encrypt.h"
 
 void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {
-	std::cout << "Encrypting file: " << filePath << std::endl;
+	eprint("Encrypting file: " + filePath.string());
 
 	// Get original file extension
 	std::string originalExtension = filePath.extension().string();
@@ -9,7 +9,7 @@ void encrypt::encryptFile(const std::filesystem::path& filePath, const std::stri
 	// Open the file for reading
 	std::ifstream inputFile(filePath, std::ios::binary);
 	if (!inputFile) {
-		std::cerr << "Error opening file for reading : " << filePath << std::endl;
+		eprint("Error opening file for reading: " + filePath.string(), Color::Red);
 		return;
 	}
 
@@ -34,7 +34,7 @@ void encrypt::encryptFile(const std::filesystem::path& filePath, const std::stri
 	// Write encrypted contents back to file with new extension
 	std::ofstream outputFile(newFilePath, std::ios::binary);
 	if (!outputFile) {
-		std::cerr << "Error opening file for writing: " << filePath << std::endl;
+		eprint("Error opening file for writing: " + filePath.string(), Color::Red);
 		return;
 	}
 	outputFile.write(buffer.data(), buffer.size());
@@ -43,11 +43,11 @@ void encrypt::encryptFile(const std::filesystem::path& filePath, const std::stri
 	// Delete the original file
 	std::filesystem::remove(filePath);
 
-	std::cout << "Successfully encrypted: " << newFilePath << std::endl;
+	eprint("Successfully encrypted: " + newFilePath.string(), Color::Green);
 }
 
 void encrypt::generateKeyFile(const std::filesystem::path& dirPath, const std::string& seed) {
-	std::cout << "Generating key for seed: " << seed << std::endl;
+	eprint("Generating key for seed: " + seed);
 
 	// Generate the file 
 	std::filesystem::path keyFilePath = dirPath / "key.txt";
@@ -57,5 +57,5 @@ void encrypt::generateKeyFile(const std::filesystem::path& dirPath, const std::s
 	keyOutput << seed;
 	keyOutput.close();
 
-	std::cout << "Key successfully generated: " << keyFilePath << std::endl;
+	eprint("Key successfully generated: " + keyFilePath.string(), Color::Green);
 }

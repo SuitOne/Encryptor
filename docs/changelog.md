@@ -5,3 +5,6 @@
 
 ## v1.1
 - Generation of key file in encrypted directories
+
+## v1.2
+- Added text colors

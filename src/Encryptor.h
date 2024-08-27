@@ -7,6 +7,7 @@
 #include <fstream>
 #include "Encrypt.h"
 #include "Decrypt.h"
+#include "eprint.h"
 
 // Forward declared functions
 
@@ -18,9 +19,3 @@ std::filesystem::path getDirectory();
 
 /// <summary>Iterate through a given directory and encrypt each file with the given seed</summary>///
 void processDirectory(const std::filesystem::path& dirPath, const int& userChoice, const std::string& seed);
-
-/// <summary>Encrypt a given file with the given seed</summary>///
-void encryptFile(const std::filesystem::path& filePath, const std::string& seed);
-
-/// <summary>Decrypt a given file with the given seed</summary>///
-void decryptFile(const std::filesystem::path& filePath, const std::string& seed);

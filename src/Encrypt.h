@@ -1,7 +1,9 @@
 #pragma once
+
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include "eprint.h"
 
 class encrypt {
 public:
