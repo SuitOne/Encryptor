@@ -1,4 +1,4 @@
-#include "Encrypt.h"
+#include "encrypt.h"
 
 void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {
 	eprint("Encrypting file: " + filePath.string());

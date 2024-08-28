@@ -9,7 +9,7 @@ int main()
 {
 	// CMD init
 	system(("title Encryptor " + VERSION).c_str());
-	eprint("Encryptor " + VERSION + " Initialized", Color::Blue);
+	eprint("Encryptor " + VERSION + " Initialized", Color::Blue, true, true);
 
 	// Main loop
 	while (true) {

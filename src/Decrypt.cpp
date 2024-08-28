@@ -1,4 +1,4 @@
-#include "Decrypt.h"
+#include "decrypt.h"
 
 void decrypt::decryptFile(const std::filesystem::path& filePath, const std::string& seed) {
 	eprint("Decrypting file: " + filePath.string());
