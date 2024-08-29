@@ -8,3 +8,5 @@
 
 ## v1.2
 - Added text colors
+- Added shell
+- Added help command

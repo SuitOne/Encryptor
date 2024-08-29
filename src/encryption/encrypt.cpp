@@ -1,10 +1,39 @@
 #include "encrypt.h"
 
+void encrypt::encryptDirectory(const std::filesystem::path& dirPath, const std::string& seed) {
+	eprint("Encrypting directory: " + dirPath.string());
+
+	// Get files in directory
+	auto files = getFiles(dirPath);
+
+	// Check if there are files in the directory
+	if (files.empty()) {
+		eprint("Directory contains no files: " + dirPath.string(), Color::Yellow);
+		return;
+	}
+
+	// Encrypt each file
+	for (const auto& file : files) {
+		encryptFile(file, seed);
+	}
+
+	// Generate key file
+	generateKeyFile(dirPath, seed);
+
+	eprint("Encrypted " + std::to_string(files.size()) + " files from " + dirPath.string(), Color::Green);
+}
+
 void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {
 	eprint("Encrypting file: " + filePath.string());
 
 	// Get original file extension
 	std::string originalExtension = filePath.extension().string();
+
+	// Make sure file isn't encrypted
+	if (originalExtension == ".ses") {
+		eprint("File already encrypted: " + filePath.string(), Color::Yellow);
+		return;
+	}
 
 	// Open the file for reading
 	std::ifstream inputFile(filePath, std::ios::binary);
@@ -58,4 +87,19 @@ void encrypt::generateKeyFile(const std::filesystem::path& dirPath, const std::s
 	keyOutput.close();
 
 	eprint("Key successfully generated: " + keyFilePath.string(), Color::Green);
+}
+
+std::string encrypt::generateSeed(int seedLength) {
+	// Init variables
+	std::string seed;
+
+	// Init random
+	srand(time(0));
+
+	// Generate random digits
+	while (seed.length() < seedLength) {
+		seed += std::to_string((rand() % 10));
+	}
+
+	return seed;
 }

@@ -1,5 +1,25 @@
 #include "decrypt.h"
 
+void decrypt::decryptDirectory(const std::filesystem::path& dirPath, const std::string& seed) {
+	eprint("Decrypting directory: " + dirPath.string());
+
+	// Get files in directory
+	auto files = getFiles(dirPath);
+
+	// Check if there are files in the directory
+	if (files.empty()) {
+		eprint("Directory contains no files: " + dirPath.string(), Color::Yellow);
+		return;
+	}
+
+	// Encrypt each file
+	for (const auto& file : files) {
+		decryptFile(file, seed);
+	}
+
+	eprint("Decrypted " + std::to_string(files.size()) + " files from " + dirPath.string(), Color::Green);
+}
+
 void decrypt::decryptFile(const std::filesystem::path& filePath, const std::string& seed) {
 	eprint("Decrypting file: " + filePath.string());
 

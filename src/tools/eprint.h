@@ -61,7 +61,7 @@ void eprint(const T& text, Color textColor = Color::Default, bool endl = true, b
 		colorCode = bold ? BGRN : GRN;
 		break;
 	case Color::Blue:
-		colorCode = bold ? BBLU : BLU;
+		colorCode = bold ? BBLU : CYN;
 		break;
 	default:
 		colorCode = bold ? BWHT : WHT;

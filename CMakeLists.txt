@@ -14,10 +14,22 @@ project ("Encryptor")
 # Add source to this project's executable.
 # Add the resource file for this icon
 if(WIN32)
-	set(SOURCE_FILES "src/encryptor.cpp" "src/encryptor.h" "resources/resource.rc" "src/encrypt.cpp" "src/encrypt.h" "src/decrypt.cpp" "src/decrypt.h" "src/eprint.cpp" "src/eprint.h")
+	set(SOURCE_FILES "src/encryptor.cpp" "src/encryptor.h" 
+	"resources/resource.rc" 
+	"src/encryption/encrypt.cpp" "src/encryption/encrypt.h" 
+	"src/encryption/decrypt.cpp" "src/encryption/decrypt.h" 
+	"src/tools/eprint.cpp" "src/tools/eprint.h" 
+	"src/tools/edir.cpp" "src/tools/edir.h"
+	"src/shell/shell.cpp" "src/shell/shell.h" )
 	add_executable(Encryptor ${SOURCE_FILES})
 else()
-	add_executable(Encryptor "src/Encryptor.cpp" "src/Encryptor.h" "src/Encrypt.cpp" "src/Encrypt.h" "src/Decrypt.cpp" "src/Decrypt.h" "src/eprint.cpp" "src/eprint.h")
+	set(SOURCE_FILES "src/encryptor.cpp" "src/encryptor.h" 
+	"src/encryption/encrypt.cpp" "src/encryption/encrypt.h" 
+	"src/encryption/decrypt.cpp" "src/encryption/decrypt.h" 
+	"src/tools/eprint.cpp" "src/tools/eprint.h" 
+	"src/tools/edir.cpp" "src/tools/edir.h"
+	"src/shell/shell.cpp" "src/shell/shell.h" )
+	add_executable(Encryptor ${SOURCE_FILES})
 endif()
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
