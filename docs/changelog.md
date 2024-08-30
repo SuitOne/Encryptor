@@ -9,4 +9,6 @@
 ## v1.2
 - Added text colors
 - Added shell
-- Added help command
+- Added help, encrypt and decrypt commands
+- Added file encryption/decryption with recursion through subdirectories
+- Fixed program crashing when user inputs an invalid directory

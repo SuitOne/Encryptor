@@ -109,6 +109,11 @@ std::vector<Command> initializeCommands() {
             std::string directory = dirIt->second; // Get the directory value
             bool recursive = (params.count("-recursive") && params.at("-recursive") != "false");
 
+            // Verify parameters
+            if (getDirectory(directory).empty()) {
+                return;
+            }
+
             // Execute
             if (recursive) {
                 encrypt::encryptDirectoryRecursive(directory, encrypt::generateSeed(16));
@@ -137,6 +142,11 @@ std::vector<Command> initializeCommands() {
             std::string directory = dirIt->second; // Get the directory value
             std::string seed = seedIt->second; // Get the seed
             bool recursive = (params.count("-recursive") && params.at("-recursive") != "false");
+
+            // Verify parameters
+            if (getDirectory(directory).empty()) {
+                return;
+            }
 
             // Execute
             if (recursive) {

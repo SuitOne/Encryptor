@@ -16,7 +16,6 @@
 
 ## Fixes:
 - Fix program crashing when failing to access directories or files
-- Fix program crashing when user inputs an invalid directory
 - Fix program crashing when user attempts to encrypt the program's .exe
 
 ## Other:
