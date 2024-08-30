@@ -1,6 +1,5 @@
 # TODO:
 
-
 ## Encryption:
 - Significantly revamp encryption standard
 - Edit success message to show how many files were actually successfully encrypted/decrypted
