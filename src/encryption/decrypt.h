@@ -3,6 +3,7 @@
 #include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <algorithm>
 #include "../tools/eprint.h"
 #include "../tools/edir.h"
 

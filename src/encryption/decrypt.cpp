@@ -41,7 +41,7 @@ void decrypt::decryptFile(const std::filesystem::path& filePath, const std::stri
 	}
 
 	// Extract the original extension from the decrypted buffer
-	auto nullPos = find(buffer.begin(), buffer.end(), '\0');
+	auto nullPos = std::find(buffer.begin(), buffer.end(), '\0');
 	if (nullPos == buffer.end()) {
 		eprint("Error: Original file extension not found.", Color::Red);
 		return;

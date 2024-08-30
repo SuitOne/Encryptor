@@ -12,28 +12,29 @@ endif()
 project ("Encryptor")
 
 # Add source to this project's executable.
-# Add the resource file for this icon
-if(WIN32)
-	set(SOURCE_FILES "src/encryptor.cpp" "src/encryptor.h" 
-	"resources/resource.rc" 
-	"src/encryption/encrypt.cpp" "src/encryption/encrypt.h" 
-	"src/encryption/decrypt.cpp" "src/encryption/decrypt.h" 
-	"src/tools/eprint.cpp" "src/tools/eprint.h" 
-	"src/tools/edir.cpp" "src/tools/edir.h"
-	"src/shell/shell.cpp" "src/shell/shell.h" )
-	add_executable(Encryptor ${SOURCE_FILES})
-else()
-	set(SOURCE_FILES "src/encryptor.cpp" "src/encryptor.h" 
-	"src/encryption/encrypt.cpp" "src/encryption/encrypt.h" 
-	"src/encryption/decrypt.cpp" "src/encryption/decrypt.h" 
-	"src/tools/eprint.cpp" "src/tools/eprint.h" 
-	"src/tools/edir.cpp" "src/tools/edir.h"
-	"src/shell/shell.cpp" "src/shell/shell.h" )
-	add_executable(Encryptor ${SOURCE_FILES})
-endif()
+set(SOURCE_FILES 
+    "src/encryptor.cpp" "src/encryptor.h" 
+    "resources/resource.rc" 
+    "src/encryption/encrypt.cpp" "src/encryption/encrypt.h" 
+    "src/encryption/decrypt.cpp" "src/encryption/decrypt.h" 
+    "src/tools/eprint.cpp" "src/tools/eprint.h" 
+    "src/tools/edir.cpp" "src/tools/edir.h"
+    "src/shell/shell.cpp" "src/shell/shell.h" 
+)
+add_executable(Encryptor ${SOURCE_FILES})
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
   set_property(TARGET Encryptor PROPERTY CXX_STANDARD 20)
 endif()
+
+# Explicitly set output directories to avoid confusion
+set_target_properties(Encryptor PROPERTIES 
+    RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin"
+    ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+    LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
+)
+
+# Set the startup project for Visual Studio
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT Encryptor)
 
 # TODO: Add tests and install targets if needed.
