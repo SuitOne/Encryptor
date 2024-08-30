@@ -18,6 +18,24 @@ std::filesystem::path getDirectory(const std::string& input) {
     return path; // Valid path
 }
 
+std::vector<std::filesystem::path> getDirectories(const std::filesystem::path inputDir) {
+	// Declare vector
+	std::vector<std::filesystem::path> directories;
+
+	// Parse the directory for each file
+	for (const auto& entry : std::filesystem::directory_iterator(inputDir)) {
+		if (std::filesystem::is_directory(entry.status())) {
+			eprint("Discovered directory: " + entry.path().string());
+			directories.push_back(entry.path());
+		}
+	}
+
+	// Final message
+	eprint("Total directories discovered: " + std::to_string(directories.size()), Color::Green);
+
+	return directories; // Return all discovered directories
+}
+
 std::vector<std::filesystem::path> getFiles(const std::filesystem::path inputDir) {
 	// Declare vector
 	std::vector<std::filesystem::path> files;

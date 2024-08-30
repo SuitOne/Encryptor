@@ -96,7 +96,7 @@ std::vector<Command> initializeCommands() {
 
     return {
         {"encrypt",
-        "Encrypt files in the directory\nRequired Parameters:\n -Directory: Directory to encrypt",
+        "Encrypt files in the directory\nRequired Parameters:\n -Directory: Directory to encrypt \nOptional Parameters:\n -Recursive: Encrypts files in subdirectories",
         [](const std::map<std::string, std::string>& params) {
             // Check for required parameter '-directory'
             auto dirIt = params.find("-directory");
@@ -107,14 +107,19 @@ std::vector<Command> initializeCommands() {
 
             // Retrieve parameters
             std::string directory = dirIt->second; // Get the directory value
-            bool recursive = (params.count("-recursive") && params.at("-recursive") == "true");
+            bool recursive = (params.count("-recursive") && params.at("-recursive") != "false");
 
             // Execute
-            encrypt::encryptDirectory(directory, encrypt::generateSeed(16));
+            if (recursive) {
+                encrypt::encryptDirectoryRecursive(directory, encrypt::generateSeed(16));
+            }
+            else {
+                encrypt::encryptDirectory(directory, encrypt::generateSeed(16), true);
+            }
         }},
 
         {"decrypt",
-        "Decrypt files in the directory\nRequired Parameters:\n -Directory: Directory to decrypt\n -Seed: Decryption seed",
+        "Decrypt files in the directory\nRequired Parameters:\n -Directory: Directory to decrypt\n -Seed: Decryption seed\nOptional Parameters:\n -Recursive: Decrypts files in subdirectories",
         [](const std::map<std::string, std::string>& params) {
             // Check for required parameters '-directory' and '-seed'
             auto dirIt = params.find("-directory");
@@ -128,8 +133,18 @@ std::vector<Command> initializeCommands() {
                 return;
             }
 
+            // Retrieve parameters
+            std::string directory = dirIt->second; // Get the directory value
+            std::string seed = seedIt->second; // Get the seed
+            bool recursive = (params.count("-recursive") && params.at("-recursive") != "false");
+
             // Execute
-            decrypt::decryptDirectory(dirIt->second, seedIt->second);
+            if (recursive) {
+                decrypt::decryptDirectoryRecursive(directory, seed);
+            }
+            else {
+                decrypt::decryptDirectory(directory, seed);
+            }
         }},
 
         {"exit", 

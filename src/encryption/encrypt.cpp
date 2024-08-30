@@ -1,6 +1,6 @@
 #include "encrypt.h"
 
-void encrypt::encryptDirectory(const std::filesystem::path& dirPath, const std::string& seed) {
+void encrypt::encryptDirectory(const std::filesystem::path& dirPath, const std::string& seed, bool generateKey) {
 	eprint("Encrypting directory: " + dirPath.string());
 
 	// Get files in directory
@@ -18,9 +18,41 @@ void encrypt::encryptDirectory(const std::filesystem::path& dirPath, const std::
 	}
 
 	// Generate key file
-	generateKeyFile(dirPath, seed);
+	if (generateKey) {
+		generateKeyFile(dirPath, seed);
+	}
 
 	eprint("Encrypted " + std::to_string(files.size()) + " files from " + dirPath.string(), Color::Green);
+}
+
+void encrypt::encryptDirectoryRecursive(const std::filesystem::path& dirPath, const std::string& seed) {
+	eprint("Encrypting directory recursively: " + dirPath.string());
+
+	// Establish vectors of directories and files in root directory
+	std::vector<std::filesystem::path> directories = { dirPath };
+
+	// Establish counters
+	int dirCount = 0;
+
+	// Loop through main directory searching through all subdirectories
+	while (!directories.empty()) {
+		// Get the next directory to process
+		std::filesystem::path currentDir = directories.back();
+		directories.pop_back();
+		dirCount++;
+
+		// Add subdirectories
+		auto subDirs = getDirectories(currentDir);
+		directories.insert(directories.end(), subDirs.begin(), subDirs.end());
+
+		// Encrypt directory
+		encryptDirectory(currentDir, seed);
+	}
+
+	// Generate key file
+	generateKeyFile(dirPath, seed);
+
+	eprint("Encrypted " + std::to_string(dirCount) + " directories starting at " + dirPath.string(), Color::Green);
 }
 
 void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {

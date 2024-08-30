@@ -13,7 +13,10 @@ public:
 	static void encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive = false);
 
 	// Encrypts a directory of files with encryptFile
-	static void encryptDirectory(const std::filesystem::path& dirPath, const std::string& seed);
+	static void encryptDirectory(const std::filesystem::path& dirPath, const std::string& seed, bool generateKey = false);
+
+	// Encrypts a directory and all of its subdirectories
+	static void encryptDirectoryRecursive(const std::filesystem::path& dirPath, const std::string& seed);
 
 	// Generates a key file for the given seed
 	static void generateKeyFile(const std::filesystem::path& dirPath, const std::string& seed);
