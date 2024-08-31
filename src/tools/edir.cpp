@@ -53,3 +53,15 @@ std::vector<std::filesystem::path> getFiles(const std::filesystem::path inputDir
 
 	return files; // Return all discovered files
 }
+
+bool comparePaths(const std::filesystem::path& path1, std::filesystem::path& path2) {
+	// Convert the paths to their generic format (with forward slashes)
+	std::string normalizedPath1 = path1.generic_string();
+	std::string normalizedPath2 = path2.generic_string();
+
+	// Convert both strings to lowercase
+	std::transform(normalizedPath1.begin(), normalizedPath1.end(), normalizedPath1.begin(), ::tolower);
+	std::transform(normalizedPath2.begin(), normalizedPath2.end(), normalizedPath2.begin(), ::tolower);
+
+	return normalizedPath1 == normalizedPath2;
+}

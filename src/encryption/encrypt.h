@@ -4,6 +4,7 @@
 #include <vector>
 #include <filesystem>
 #include <fstream>
+#include "../encryptor.h"
 #include "../tools/eprint.h"
 #include "../tools/edir.h"
 

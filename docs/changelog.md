@@ -6,6 +6,7 @@
 - Added help, encrypt and decrypt commands
 - Added file encryption/decryption with recursion through subdirectories
 - Fixed program crashing when user inputs an invalid directory
+- Fixed program crashing when user attempts to encrypt the encryptor
 
 ## v1.1
 - Generation of key file in encrypted directories

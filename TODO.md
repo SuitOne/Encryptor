@@ -15,7 +15,6 @@
 
 ## Fixes:
 - Fix program crashing when failing to access directories or files
-- Fix program crashing when user attempts to encrypt the program's .exe
 
 ## Other:
 - Add updater that checks github for newer releases

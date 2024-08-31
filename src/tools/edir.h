@@ -12,3 +12,6 @@ std::vector<std::filesystem::path> getDirectories(const std::filesystem::path in
 
 // Returns a list of files inside of a directory
 std::vector<std::filesystem::path> getFiles(const std::filesystem::path inputDir);
+
+// Returns true if path1 and path2 are the same
+bool comparePaths(const std::filesystem::path& path1, std::filesystem::path& path2);

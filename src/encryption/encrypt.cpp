@@ -58,6 +58,12 @@ void encrypt::encryptDirectoryRecursive(const std::filesystem::path& dirPath, co
 void encrypt::encryptFile(const std::filesystem::path& filePath, const std::string& seed, bool recursive) {
 	eprint("Encrypting file: " + filePath.string());
 
+	// Make sure file is not the program
+	if (comparePaths(filePath, programFilePath)) {
+		eprint("Cannot encrypt Encryptor", Color::Red);
+		return;
+	}
+
 	// Get original file extension
 	std::string originalExtension = filePath.extension().string();
 
