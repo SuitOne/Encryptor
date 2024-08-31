@@ -41,12 +41,18 @@ std::vector<std::filesystem::path> getFiles(const std::filesystem::path inputDir
 	std::vector<std::filesystem::path> files;
 
 	// Parse the directory for each file
-	for (const auto& entry : std::filesystem::directory_iterator(inputDir)) {
-		if (std::filesystem::is_regular_file(entry.status())) {
-			eprint("Discovered file: " + entry.path().string());
-			files.push_back(entry.path());
+	try {
+		for (const auto& entry : std::filesystem::directory_iterator(inputDir)) {
+			if (std::filesystem::is_regular_file(entry.status())) {
+				eprint("Discovered file: " + entry.path().string());
+				files.push_back(entry.path());
+			}
 		}
 	}
+	catch (std::exception& e) {
+		eprinterror(e);
+	}
+	
 
 	// Final message
 	eprint("Total files discovered: " + std::to_string(files.size()), Color::Green);

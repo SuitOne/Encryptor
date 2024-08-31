@@ -14,7 +14,7 @@
 - Add aliases/shorthand for commands
 
 ## Fixes:
-- Fix program crashing when failing to access directories or files
+- 
 
 ## Other:
 - Add updater that checks github for newer releases
