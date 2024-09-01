@@ -2,7 +2,6 @@
 # project specific logic here.
 #
 cmake_minimum_required (VERSION 3.8)
-
 # Enable Hot Reload for MSVC compilers if supported.
 if (POLICY CMP0141)
   cmake_policy(SET CMP0141 NEW)
@@ -23,9 +22,7 @@ set(SOURCE_FILES
 )
 add_executable(Encryptor ${SOURCE_FILES})
 
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Encryptor PROPERTY CXX_STANDARD 20)
-endif()
+set_property(TARGET Encryptor PROPERTY CXX_STANDARD 20)
 
 # Explicitly set output directories to avoid confusion
 set_target_properties(Encryptor PROPERTIES 
