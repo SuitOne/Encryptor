@@ -1,0 +1,3 @@
+/home/devooty/Downloads/Encryptor/CMakeFiles/Encryptor.dir
+/home/devooty/Downloads/Encryptor/CMakeFiles/edit_cache.dir
+/home/devooty/Downloads/Encryptor/CMakeFiles/rebuild_cache.dir
